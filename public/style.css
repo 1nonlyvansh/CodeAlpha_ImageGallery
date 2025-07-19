@@ -1,0 +1,363 @@
+/* General Styles & Dark Mode */
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --card-bg: #fff;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #f4f4f4;
+    --card-bg: #2b2b2b;
+    --shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+    --hover-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Controls: Filters, Theme Switcher & Selection */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.main-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-buttons button {
+    background-color: transparent;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-buttons button:hover, .filter-buttons button.active {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.theme-switcher {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.theme-switcher input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #555;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.selection-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.control-btn-main {
+    background-color: var(--card-bg);
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.control-btn-main:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.control-btn-main:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.control-btn-main.active {
+    background-color: #d9534f;
+    border-color: #d9534f;
+    color: #fff;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Gallery Grid & Selection Styles */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.gallery-item {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-container.selection-mode .gallery-item {
+    cursor: copy;
+}
+
+.gallery-item.selected {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 4px #007bff, var(--hover-shadow);
+}
+
+.selection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 123, 255, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Allows clicks to pass through to the item */
+    border-radius: 10px;
+}
+
+.gallery-item.selected .selection-overlay {
+    display: flex;
+}
+
+.selection-overlay .icon {
+    color: white;
+    font-size: 3rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.image-info {
+    padding: 15px;
+}
+
+.image-info .category {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.image-info .timestamp {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Lightbox Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 85vw;
+    max-height: 85vh;
+}
+
+.lightbox-image {
+    width: 100%;
+    height: auto;
+    max-width: 85vw;
+    max-height: 85vh;
+    object-fit: contain;
+    cursor: zoom-in;
+}
+
+.modal-controls {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.control-btn, .nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.control-btn:hover, .nav-btn:hover, .control-select:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.slideshow-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.control-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.control-select option {
+    background-color: #333;
+    color: white;
+}
+
+/* Magnifier */
+#magnifier-glass {
+    position: absolute;
+    border: 3px solid #000;
+    border-radius: 50%;
+    cursor: crosshair;
+    width: 150px;
+    height: 150px;
+    background-repeat: no-repeat;
+    display: none;
+    pointer-events: none;
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85),
+                0 0 7px 7px rgba(0, 0, 0, 0.25),
+                inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    .filter-buttons {
+        gap: 0.5rem;
+    }
+    .filter-buttons button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    .selection-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    .modal-controls {
+        gap: 10px;
+        bottom: -55px;
+    }
+    .control-btn, .nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    .control-select {
+        height: 45px;
+        padding: 0 15px;
+    }
+}
